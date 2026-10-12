@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Hostel Management</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eaf1fb, #e5f5f0);
+        }
+
+        .signup-card {
+            width: 100%;
+            max-width: 440px;
+            background: white;
+            padding: 32px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px #17365d18;
+        }
+
+        h1 {
+            text-align: center;
+            color: #17365d;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .role-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .role-options button {
+            flex: 1;
+            padding: 13px 8px;
+            border: 1px solid #dbe3ee;
+            border-radius: 9px;
+            background: #f8fafc;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #hostellerBtn.active {
+            background: #1769aa;
+            color: white;
+            border-color: #1769aa;
+        }
+
+        #ownerBtn.active {
+            background: #087f68;
+            color: white;
+            border-color: #087f68;
+        }
+
+        label {
+            display: block;
+            margin: 13px 0 7px;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #1769aa;
+        }
+
+        .signup-btn {
+            width: 100%;
+            margin-top: 23px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            background: #1769aa;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .signup-btn.owner-mode {
+            background: #087f68;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        a { color: #1769aa; }
+    </style>
+</head>
+
+<body>
+    <main class="signup-card">
+        <h1>Hostel Management</h1>
+        <p class="subtitle">Create your account</p>
+
+        <div class="role-options">
+            <button type="button" id="hostellerBtn"
+                    class="active" onclick="selectRole('STUDENT')">
+                Hosteller
+            </button>
+
+            <button type="button" id="ownerBtn"
+                    onclick="selectRole('WARDEN')">
+                Owner
+            </button>
+        </div>
+
+        <form id="signupForm">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text"
+                   placeholder="Enter your full name" required>
+
+            <label for="email">Email Address</label>
+            <input id="email" type="email"
+                   placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password"
+                   placeholder="Create a password" required minlength="8">
+
+            <button class="signup-btn" id="signupBtn" type="submit">
+                Sign Up as Hosteller
+            </button>
+        </form>
+
+        <p id="message" role="status"></p>
+
+        <p class="login-link">
+            Already have an account?
+            <a href="index.html">Login</a>
+        </p>
+    </main>
+
+    <script>
+        let selectedRole = "STUDENT";
+
+        const hostellerBtn = document.getElementById("hostellerBtn");
+        const ownerBtn = document.getElementById("ownerBtn");
+        const signupBtn = document.getElementById("signupBtn");
+        const message = document.getElementById("message");
+
+        function selectRole(role) {
+            selectedRole = role;
+
+            hostellerBtn.classList.toggle("active", role === "STUDENT");
+            ownerBtn.classList.toggle("active", role === "WARDEN");
+
+            signupBtn.textContent = role === "STUDENT"
+                ? "Sign Up as Hosteller"
+                : "Sign Up as Owner";
+
+            signupBtn.classList.toggle("owner-mode", role === "WARDEN");
+            message.textContent = "";
+        }
+
+        document.getElementById("signupForm").addEventListener("submit",
+            async function(event) {
+                event.preventDefault();
+
+                message.style.color = "#475569";
+                message.textContent = "Creating your account...";
+
+                const account = {
+                    fullName: document.getElementById("fullName").value.trim(),
+                    email: document.getElementById("email").value.trim(),
+                    password: document.getElementById("password").value
+                };
+
+                try {
+                    const response = await fetch(
+                     "http://localhost:8080/api/auth/register",
+                 {
+                   method: "POST",
+                     headers: {
+                      "Content-Type": "application/json"
+               },
+                    body: JSON.stringify(account)
+               }
+                );
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || data.error ||
+                            "Registration failed. Please check your details.");
+                    }
+
+                    message.style.color = "#087f68";
+                    message.textContent =
+                        "Account created! Redirecting to login...";
+
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1200);
+
+                } catch (error) {
+                    message.style.color = "#dc2626";
+                    message.textContent =
+                        error.message || "Could not connect to the backend.";
+                }
+            });
+    </script>
+</body>
+</html>
