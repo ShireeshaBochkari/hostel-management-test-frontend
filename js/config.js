@@ -5,7 +5,7 @@
 // For Render Production: Replace with your Render URL (e.g. "https://your-backend.onrender.com")
 
 window.HOSTEL_CONFIG = {
-    BACKEND_URL: "http://localhost:8080",
+    BACKEND_URL: "https://hostel-management-backend-3.onrender.com",
     get AUTH_API() { return this.BACKEND_URL + "/api/auth"; },
     get ROOMS_API() { return this.BACKEND_URL + "/api/rooms"; },
     get HOSTELLERS_API() { return this.BACKEND_URL + "/api/hostellers"; },
