@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>HostelHub | Sign In</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+        .back-link:hover {
+            color: #0f172a;
+        }
+        .demo-bar {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .demo-bar p {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            margin: 0 0 6px 0;
+        }
+        .demo-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .demo-btn:hover {
+            background: #2563eb;
+        }
+        .role-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <!-- LEFT PANEL -->
+        <section class="welcome-panel">
+            <div class="brand">
+                <span class="brand-icon">H</span>
+                <span>HostelHub</span>
+            </div>
+
+            <div class="welcome-content">
+                <p class="eyebrow">YOUR HOSTEL, SIMPLIFIED</p>
+                <h1>Feel at home.<br>Stay connected.</h1>
+                <p class="welcome-description">
+                    Manage your hostel life in one place.
+                    Access room details, fees, complaints,
+                    and important announcements with ease.
+                </p>
+            </div>
+
+            <p class="footer-note">
+                A smarter way to manage hostel life.
+            </p>
+        </section>
+
+        <!-- RIGHT PANEL -->
+        <section class="login-panel">
+            <div class="login-card">
+                <a href="index.html" class="back-link">
+                    &larr; Back to Role Selection
+                </a>
+
+                <div id="roleBadgeContainer">
+                    <span id="roleBadge" class="role-tag">Hosteller Portal</span>
+                </div>
+
+                <h2 id="formTitle">Sign in to your account</h2>
+                <p class="subtitle" id="formSubtitle">
+                    Enter your details to continue.
+                </p>
+
+                <!-- DEMO CREDENTIALS AUTOFILL -->
+                <div class="demo-bar">
+                    <p>⚡ 1-Click Demo Login</p>
+                    <button type="button" id="demoButton" class="demo-btn">
+                        Auto-fill Demo Credentials
+                    </button>
+                </div>
+
+                <!-- TABS: SIGN IN / SIGN UP -->
+                <div class="auth-tabs">
+                    <button type="button"
+                            id="signInTab"
+                            class="auth-tab active">
+                        Sign In
+                    </button>
+
+                    <button type="button"
+                            id="signUpTab"
+                            class="auth-tab">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- SIGN IN FORM -->
+                <form id="loginForm">
+                    <label for="loginEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <label for="loginPassword">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <p id="loginMessage"
+                       class="message"
+                       aria-live="polite"></p>
+
+                    <button type="submit" id="loginButton">
+                        Sign In
+                    </button>
+                </form>
+
+                <!-- SIGN UP FORM -->
+                <form id="registerForm" hidden>
+                    <label for="registerName">Full name</label>
+                    <input
+                        type="text"
+                        id="registerName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                    <label for="registerEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <label for="registerPassword">Password</label>
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="At least 8 characters"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <p id="registerMessage"
+                       class="message"
+                       aria-live="polite"></p>
+
+                    <button type="submit" id="registerButton">
+                        Create Account
+                    </button>
+                </form>
+
+                <p class="security-note">
+                    Your hostel information, all in one place.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Check URL or sessionStorage for role
+        const urlParams = new URLSearchParams(window.location.search);
+        const roleFromUrl = urlParams.get("role");
+        if (roleFromUrl) {
+            sessionStorage.setItem("selectedRole", roleFromUrl.toLowerCase());
+        }
+
+        const currentRole = (sessionStorage.getItem("selectedRole") || "hosteller").toLowerCase();
+        const roleBadge = document.getElementById("roleBadge");
+        const demoBtn = document.getElementById("demoButton");
+
+        if (currentRole === "owner") {
+            roleBadge.textContent = "🏢 Owner & Warden Portal";
+            roleBadge.style.background = "#dbeafe";
+            roleBadge.style.color = "#1e40af";
+            demoBtn.textContent = "🏢 Auto-fill Warden (warden@hostel.com)";
+            demoBtn.style.background = "#2563eb";
+            demoBtn.onclick = function() {
+                document.getElementById("loginEmail").value = "warden@hostel.com";
+                document.getElementById("loginPassword").value = "admin123";
+            };
+        } else {
+            roleBadge.textContent = "🎓 Hosteller Portal";
+            roleBadge.style.background = "#ccfbf1";
+            roleBadge.style.color = "#0f766e";
+            demoBtn.textContent = "🎓 Auto-fill Hosteller (student@hostel.com)";
+            demoBtn.style.background = "#0d9488";
+            demoBtn.onclick = function() {
+                document.getElementById("loginEmail").value = "student@hostel.com";
+                document.getElementById("loginPassword").value = "student123";
+            };
+        }
+    </script>
+</body>
+</html>

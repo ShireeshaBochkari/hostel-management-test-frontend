@@ -422,8 +422,8 @@
                     <i class="bi bi-three-dots text-secondary"></i>
                 </div>
                 <div class="stat-label">My Room</div>
-                <div class="stat-value" style="font-size:19px">Not assigned</div>
-                <div class="stat-note">Room details will appear here</div>
+                <div class="stat-value" id="statMyRoom" style="font-size:19px">Loading...</div>
+                <div class="stat-note" id="statRoomNote">Allocated room number</div>
             </div>
         </div>
         <div class="col-12 col-sm-6 col-xl-3" id="fees">
@@ -432,8 +432,8 @@
                     <div class="stat-icon icon-orange"><i class="bi bi-wallet2"></i></div>
                 </div>
                 <div class="stat-label">Monthly Rent</div>
-                <div class="stat-value">—</div>
-                <div class="stat-note">Fee records not connected yet</div>
+                <div class="stat-value" id="statRent">Loading...</div>
+                <div class="stat-note" id="statRentNote">Active rent / bed</div>
             </div>
         </div>
         <div class="col-12 col-sm-6 col-xl-3">
@@ -442,8 +442,8 @@
                     <div class="stat-icon icon-purple"><i class="bi bi-chat-left-dots"></i></div>
                 </div>
                 <div class="stat-label">My Complaints</div>
-                <div class="stat-value">—</div>
-                <div class="stat-note">Complaint tracking not connected yet</div>
+                <div class="stat-value" id="statComplaints">0</div>
+                <div class="stat-note" id="statComplaintsNote">Active maintenance requests</div>
             </div>
         </div>
         <div class="col-12 col-sm-6 col-xl-3">
@@ -452,8 +452,8 @@
                     <div class="stat-icon icon-blue"><i class="bi bi-bell"></i></div>
                 </div>
                 <div class="stat-label">New Notices</div>
-                <div class="stat-value">—</div>
-                <div class="stat-note">Notices will appear when available</div>
+                <div class="stat-value" id="statNotices">0</div>
+                <div class="stat-note">Hostel announcements</div>
             </div>
         </div>
     </div>
@@ -462,40 +462,48 @@
         <div class="col-12 col-lg-7" id="my-room">
             <h2 class="section-heading">My Accommodation</h2>
             <div class="content-card">
-                <div class="card-heading">Room information</div>
-                <div class="card-subtitle">Your room assignment and accommodation details</div>
+                <div class="card-heading">Allocated Room Details</div>
+                <div class="card-subtitle">Your active hostel accommodation and allocated room</div>
+                <div id="myRoomDisplay" class="mb-4">
+                    <div class="room-placeholder">
+                        <i class="bi bi-door-open"></i>
+                        <h3>Checking room allocation...</h3>
+                        <p>Fetching your assigned room details from the database.</p>
+                    </div>
+                </div>
+
+                <div class="card-heading pt-3 border-top">Available Hostel Rooms</div>
+                <div class="card-subtitle">Other rooms with vacant beds in the hostel</div>
                 <div id="availableRooms">
-    <div class="room-placeholder">
-        <i class="bi bi-house-door"></i>
-        <h3>Loading available rooms...</h3>
-        <p>Fetching room information.</p>
-    </div>
-</div>
-                    <i class="bi bi-house-door"></i>
-                    <h3>No room assigned yet</h3>
-                    <p>Your room number, roommates, available facilities, and rent will appear here after the room-allocation feature is connected.</p>
+                    <div class="room-placeholder">
+                        <i class="bi bi-house-door"></i>
+                        <h3>Loading available rooms...</h3>
+                        <p>Fetching room information from the database.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-lg-5" id="complaints">
-            <h2 class="section-heading">Quick Actions</h2>
+            <h2 class="section-heading">Maintenance & Complaints</h2>
             <div class="content-card">
-                <div class="card-heading">What would you like to do?</div>
-                <div class="card-subtitle">Quick access to hostel services</div>
-                <div class="action-grid">
-                    <button class="action-btn" onclick="showFeatureMessage('Complaints')">
-                        <i class="bi bi-chat-square-text"></i><span>File a Complaint</span>
+                <div class="card-heading">File a Complaint</div>
+                <div class="card-subtitle">Submit requests directly to the warden</div>
+                <form id="newComplaintForm" class="mb-3">
+                    <div class="mb-2">
+                        <input type="text" id="complaintTitle" class="form-control form-control-sm" placeholder="Issue Title (e.g., Geyser not working)" required>
+                    </div>
+                    <div class="mb-2">
+                        <textarea id="complaintDesc" class="form-control form-control-sm" rows="2" placeholder="Brief description of the issue..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success w-100" id="submitComplaintBtn">
+                        <i class="bi bi-send me-1"></i> Submit Complaint
                     </button>
-                    <button class="action-btn" onclick="showFeatureMessage('Fee Details')">
-                        <i class="bi bi-receipt"></i><span>View Fee Details</span>
-                    </button>
-                    <button class="action-btn" onclick="showFeatureMessage('Food Timings')">
-                        <i class="bi bi-cup-hot"></i><span>Food Timings</span>
-                    </button>
-                    <button class="action-btn" onclick="showFeatureMessage('In/Out Records')">
-                        <i class="bi bi-clock"></i><span>In/Out Records</span>
-                    </button>
+                    <div id="complaintStatus" class="small mt-2"></div>
+                </form>
+                <div class="fw-bold small mb-2 text-secondary">My Recent Complaints:</div>
+                <div id="myComplaintsList" class="small" style="max-height: 180px; overflow-y: auto;">
+                    <div class="text-secondary">Loading complaints...</div>
                 </div>
             </div>
         </div>
@@ -505,32 +513,36 @@
         <div class="col-12 col-lg-7" id="notices">
             <h2 class="section-heading">Hostel Notices</h2>
             <div class="content-card">
-                <div class="card-heading">Latest announcements</div>
-                <div class="notice-empty">
-                    <i class="bi bi-megaphone"></i>
-                    <p>No notices to display yet.<br>New announcements will appear here when the notices feature is connected.</p>
+                <div class="card-heading">Official Announcements</div>
+                <div class="card-subtitle">Important updates posted by the hostel administration</div>
+                <div id="noticesContainer">
+                    <div class="text-secondary small">Loading notices from the database...</div>
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-lg-5" id="schedule">
-            <h2 class="section-heading">Hostel Information</h2>
+            <h2 class="section-heading">Hostel Schedule & Info</h2>
             <div class="content-card">
                 <div class="quick-row">
-                    <span><i class="bi bi-cup-hot me-2"></i>Food timings</span>
-                    <span class="small-muted">Not configured</span>
+                    <span><i class="bi bi-cup-hot me-2"></i>Breakfast</span>
+                    <span class="small fw-semibold text-success">7:30 AM – 9:30 AM</span>
                 </div>
                 <div class="quick-row">
-                    <span><i class="bi bi-door-open me-2"></i>In/Out timings</span>
-                    <span class="small-muted">Not configured</span>
+                    <span><i class="bi bi-cup-hot me-2"></i>Lunch</span>
+                    <span class="small fw-semibold text-success">12:30 PM – 2:30 PM</span>
                 </div>
                 <div class="quick-row">
-                    <span><i class="bi bi-person-check me-2"></i>Warden contact</span>
-                    <span class="small-muted">Not configured</span>
+                    <span><i class="bi bi-cup-hot me-2"></i>Dinner</span>
+                    <span class="small fw-semibold text-success">7:30 PM – 9:30 PM</span>
                 </div>
                 <div class="quick-row">
-                    <span><i class="bi bi-shield-check me-2"></i>Account security</span>
-                    <span class="small-muted">Login protected</span>
+                    <span><i class="bi bi-door-open me-2"></i>Gate Curfew</span>
+                    <span class="small fw-semibold text-danger">Strictly 10:00 PM</span>
+                </div>
+                <div class="quick-row">
+                    <span><i class="bi bi-shield-check me-2"></i>System Security</span>
+                    <span class="small text-muted">JWT Auth Active</span>
                 </div>
             </div>
         </div>
@@ -634,6 +646,7 @@ if (
         alert(feature + " is not connected to the backend yet. We can implement this feature next.");
     }
 </script>
+<script src="js/config.js"></script>
 <script src="js/student-dashboard.js"></script>
 </body>
 </html>

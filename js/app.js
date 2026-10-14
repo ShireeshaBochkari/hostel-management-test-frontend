@@ -1,5 +1,4 @@
-
-const API_BASE_URL = "http://localhost:8080/api/auth";
+var API_BASE_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.AUTH_API) || "http://localhost:8080/api/auth";
 
 // ==========================================
 // 1. COMMON SIGN IN / SIGN UP TABS

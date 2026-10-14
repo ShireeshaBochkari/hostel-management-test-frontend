@@ -165,7 +165,9 @@
         </p>
     </main>
 
+    <script src="js/config.js"></script>
     <script>
+        const API_REG_URL = typeof API_BASE_URL !== "undefined" ? `${API_BASE_URL}/register` : "http://localhost:8080/api/auth/register";
         let selectedRole = "STUDENT";
 
         const hostellerBtn = document.getElementById("hostellerBtn");
@@ -197,20 +199,21 @@
                 const account = {
                     fullName: document.getElementById("fullName").value.trim(),
                     email: document.getElementById("email").value.trim(),
-                    password: document.getElementById("password").value
+                    password: document.getElementById("password").value,
+                    role: selectedRole === "WARDEN" ? "WARDEN" : "HOSTELER"
                 };
 
                 try {
                     const response = await fetch(
-                     "http://localhost:8080/api/auth/register",
-                 {
-                   method: "POST",
-                     headers: {
-                      "Content-Type": "application/json"
-               },
-                    body: JSON.stringify(account)
-               }
-                );
+                        API_REG_URL,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(account)
+                        }
+                    );
 
                     const data = await response.json();
 
@@ -224,7 +227,7 @@
                         "Account created! Redirecting to login...";
 
                     setTimeout(() => {
-                        window.location.href = "index.html";
+                        window.location.href = "login.html";
                     }, 1200);
 
                 } catch (error) {
