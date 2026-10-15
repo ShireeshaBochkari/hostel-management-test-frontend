@@ -1,5 +1,5 @@
-var ROOMS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.ROOMS_API) || "http://localhost:8080/api/rooms";
-var MESSAGES_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.MESSAGES_API) || "http://localhost:8080/api/messages";
+var ROOMS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.ROOMS_API) || "https://hotel-backend-12ie.onrender.com/api/rooms";
+var MESSAGES_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.MESSAGES_API) || "https://hotel-backend-12ie.onrender.com/api/messages";
 
 // ==========================================
 // 1. GET LOGGED-IN HOSTELLER
@@ -476,10 +476,10 @@ async function sendHostellerMessage(event) {
 // 8. MY ALLOCATED ROOM & STATS
 // ==========================================
 
-var DASHBOARD_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.BACKEND_URL ? window.HOSTEL_CONFIG.BACKEND_URL + "/api/dashboard" : "http://localhost:8080/api/dashboard");
-var NOTICES_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.NOTICES_API) || "http://localhost:8080/api/notices";
-var COMPLAINTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.COMPLAINTS_API) || "http://localhost:8080/api/complaints";
-var PAYMENTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.PAYMENTS_API) || "http://localhost:8080/api/payments";
+var DASHBOARD_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.BACKEND_URL ? window.HOSTEL_CONFIG.BACKEND_URL + "/api/dashboard" : "https://hotel-backend-12ie.onrender.com/api/dashboard");
+var NOTICES_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.NOTICES_API) || "https://hotel-backend-12ie.onrender.com/api/notices";
+var COMPLAINTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.COMPLAINTS_API) || "https://hotel-backend-12ie.onrender.com/api/complaints";
+var PAYMENTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.PAYMENTS_API) || "https://hotel-backend-12ie.onrender.com/api/payments";
 
 function prepareRoomChangeMessage(roomNumber) {
     const input = document.getElementById("hostellerMessageContent");

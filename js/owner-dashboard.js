@@ -1,6 +1,6 @@
-var ROOM_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.ROOMS_API) || "http://localhost:8080/api/rooms";
-var HOSTELLER_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.HOSTELLERS_API) || "http://localhost:8080/api/hostellers";
-var MESSAGES_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.MESSAGES_API) || "http://localhost:8080/api/messages";
+var ROOM_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.ROOMS_API) ||  "https://hotel-backend-12ie.onrender.com/api/rooms";
+var HOSTELLER_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.HOSTELLERS_API) || "https://hotel-backend-12ie.onrender.com/api/hostellers";
+var MESSAGES_API_URL = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.MESSAGES_API) || "https://hotel-backend-12ie.onrender.com/api/messages";
 
 // ========================================
 // 1. OWNER LOGIN AND AUTHENTICATION
@@ -1172,8 +1172,8 @@ function setupAssignRoomButton() {
     });
 }
 
-var OWNER_PAYMENTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.PAYMENTS_API) || "http://localhost:8080/api/payments";
-var OWNER_COMPLAINTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.COMPLAINTS_API) || "http://localhost:8080/api/complaints";
+var OWNER_PAYMENTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.PAYMENTS_API) || "https://hotel-backend-12ie.onrender.com/api/payments";
+var OWNER_COMPLAINTS_API = (window.HOSTEL_CONFIG && window.HOSTEL_CONFIG.COMPLAINTS_API) || "https://hotel-backend-12ie.onrender.com/api/complaints";
 
 async function loadOwnerPayments() {
     const el = document.getElementById("ownerPaymentsList");
@@ -1257,7 +1257,7 @@ if (document.readyState === "loading") {
 // ========================================
 
 if (typeof MESSAGES_API_URL === "undefined") {
-    var MESSAGES_API_URL = "http://localhost:8080/api/messages";
+    var MESSAGES_API_URL = "https://hotel-backend-12ie.onrender.com/api/messages";
 }
 
 function messageRequestOptions(method = "GET", body = null) {
